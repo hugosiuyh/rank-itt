@@ -5,13 +5,19 @@ from flask import current_app, g
 
 def get_db():
     if 'db' not in g:
-        g.db = sqlite3.connect(
-            current_app.config['DATABASE'],
-            detect_types=sqlite3.PARSE_DECLTYPES
-        )
-        # tells the connection to return rows that behave like dicts. This allows
-        # accessing the columns by name.
-        g.db.row_factory = sqlite3.Row
+        # Create a SQLAlchemy engine using the database URL
+        engine = create_engine('sqlite:///{}'.format(current_app.config['DATABASE']), convert_unicode=True)
+
+        # Create a SQLAlchemy session factory
+        session_factory = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+
+        # Create a scoped session for thread safety
+        db_session = scoped_session(session_factory)
+
+        # Set the row factory to access columns by name
+        db_session.row_factory = lambda session, row: dict((col.name, row[idx]) for idx, col in enumerate(row.cursor.description))
+
+        g.db = db_session
 
     return g.db
 
