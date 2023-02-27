@@ -41,7 +41,7 @@ def init_db_vercel():
     db = get_db()
 
     with open('app/schema.sql') as f:  # opens file relative to "app" package
-        db.executescript(f.read())
+        db.execute(f.read())
 
 
 @click.command('init-db')
