@@ -37,7 +37,7 @@ def init_db():
         schema = f.read()
 
 # Execute the SQL statements in the schema.sql file
-    with db.connect() as conn:
+    with db.connection() as conn:
         conn.execute(schema)
 
 
