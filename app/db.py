@@ -7,7 +7,7 @@ from flask import current_app, g
 def get_db():
     if 'db' not in g:
         # Create a SQLAlchemy engine using the database URL
-        engine = create_engine(current_app.config['DATABASE'])
+        engine = create_engine('postgres://sxeotxuxlmjxyo:1c4b9218b5de7f2f8db838198eae0f7c2f6974265a1b50c91fdf010a67242b2e@ec2-44-194-4-127.compute-1.amazonaws.com:5432/d840ckthb5pvst')
 
         # Create a SQLAlchemy session factory
         session_factory = sessionmaker(autocommit=False, autoflush=False, bind=engine)
