@@ -1,0 +1,30 @@
+<!--tells Jinja that this template should replace the blocks from the base template-->
+{% extends 'base.html' %}
+
+<!--Nesting block title in block header changes both at the same time-->
+{% block header %}{% endblock %}
+<h1>{% block title %}Add Score{% endblock %}</h1>
+
+
+{% block content %}
+  <form method="post">
+    <div>
+      <label for="opponent">*Opponent:</label>
+      <input type="text" name="opponent" id="opponent" list="opponentName" required/>
+      <datalist id="opponentName">
+        {% for user in users %}
+          <option>{{ user.username }}</option>
+        {% endfor %}
+      </datalist>
+    </div>
+    <div>
+      <label for="your-score">*Your Score:</label>
+      <input type="text" name="your-score" id="your-score" required>
+    </div>
+    <div>
+      <label for="opponent-score">*Opponent Score:</label>
+      <input type="text" name="opponent-score" id="opponent-score" required>
+    </div>
+    <input type="submit" value="Submit score">
+  </form>
+{% endblock %}

@@ -1,0 +1,60 @@
+<!--tells Jinja that this template should replace the blocks from the base template-->
+{% extends 'base.html' %}
+
+<!--Nesting block title in block header changes both at the same time-->
+{% block header %}{% endblock %}
+<h1>{% block title %}Profile{% endblock %}</h1>
+
+
+{% block content %}
+
+{% if g.user['id'] == user_id %}
+
+<h3> Welcome, <em>{{ g.user["first_name"] }}</em>. Here's your summary. </h3>
+<ul>
+    <li> You played <b>{{ games_played }} </b> games.</li>
+    <li> You <b>won {{ won }}</b> and <b style="color:red;">lost {{ lost }}</b> games. </li>
+</ul>
+
+<h3> Games pending approval from your opponent: </h3>
+<ul>
+{% if pending_others_approval|length < 1 %}
+    <li>None</li>
+{% endif %}
+{% for match in pending_others_approval %}
+    {% if match["self_score"] > match["opp_score"]%}
+    <li> You <b>won {{ match["self_score"] }}-{{ match["opp_score"] }}</b> to <b>{{ match["opp_username"] }}</b> on <b>{{ match["date"] }}</b></li>
+    {% else %}
+    <li> You <b style="color:red;">lost {{ match["self_score"] }}-{{ match["opp_score"] }}</b> to <b>{{ match["opp_username"] }}</b> on <b>{{ match["date"] }}</b></li>
+    {% endif %}
+{% endfor %}
+</ul>
+
+<h3> Games pending your approval: </h3>
+<ul>
+{% if pending_self_approval|length < 1 %}
+    <li>None</li>
+{% endif %}
+{% for match in pending_self_approval %}
+    <li>
+    {% if match["self_score"] > match["opp_score"]%}
+        You <b>won {{ match["self_score"] }}-{{ match["opp_score"] }}</b> to <b>{{ match["opp_username"] }}</b> on <b>{{ match["date"] }}</b>
+    {% else %}
+        You <b style="color:red;"> lost {{ match["self_score"] }}-{{ match["opp_score"] }}</b> to <b>{{ match["opp_username"] }}</b> on <b>{{ match["date"] }}</b>
+    {% endif %}
+        <ul>
+            <li><a href="{{ url_for('rank.approve_score', match_id=match.match_id, self_score_id=match.self_score_id, opp_score_id=match.opp_score_id) }}">Accept</a></li>
+        </ul>
+    </li>
+{% endfor %}
+</ul>
+
+<p><a href="{{ url_for('auth.logout') }}">Log out</a><p>
+{% else %}
+<h3> Viewing <em>{{ username }}</em>'s summary. </h3>
+<ul>
+    <li><b><em>{{ username }}</em></b> played <b><em> {{ games_played }} </em></b> games.</li>
+    <li><b><em>{{ username }}</em></b> won <b><em>{{ won }}</em></b> and lost <b><em>{{ lost }}</em></b> games. </li>
+</ul>
+{% endif %}
+{% endblock %}

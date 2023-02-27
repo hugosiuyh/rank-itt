@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block header %}{% endblock %}
+<h1>{% block title %}Ranking{% endblock %}</h1>
+
+{% block content %}
+<h3 style="text-align:center;">Hi <b>{{name}}</b>.</h3>
+
+<p>
+    Amateur pingpong players deserves some competitiveness like
+    professionals, don't you think? We need your help (and a pinch of honesty lol)
+    to figure out if amateur pingpong can be more than just social playing.
+</p>
+<h3>Game instructions:</h3>
+<ul>
+    <li>Each game is 11 point.</li>
+    <li>Switch serves every 2 points.</li>
+    <li>Deuce until there's a winner.</li>
+    <li>No draws allowed.</li>
+</ul>
+
+<h3>Submission instructions:</h3>
+<ul>
+    <li>Submit the scores on the "Add" tab after every games.</li>
+    <li>The other player must accept the scores on their "Profile" tab.</li>
+    <li>Only until then, the score is published and reflected in the ranking.</li>
+    <li>No draws allowed.</li>
+</ul>
+
+<h3>About the ranking algorithm</h3>
+<ul>
+    <li>Conventional league format is deterministic point-counting. </li>
+    <li>It requires all players to play the same amount of games. </li>
+    <li>Instead, we use Microsoft's TrueSkill like in Xbox games, e.g. GTA or Halo to determine your skill.</li>
+    <li>It's a Bayesian inference algorithm that models each player with a Normal distribution.</li>
+    <li>With mean = skill and sigma = uncertainty. </li>
+</ul>
+Learn more <a href="https://www.microsoft.com/en-us/research/project/trueskill-ranking-system/" target="_blank">here</a> or contact the developers.
+{% endblock %}
