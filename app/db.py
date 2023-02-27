@@ -33,15 +33,12 @@ def close_db(e=None):
 def init_db():
     db = get_db()
 
-    with current_app.open_resource('./schema.sql') as f:  # opens file relative to "app" package
-        db.execute(f.read())
+    with open('schema.sql', 'r') as f:
+        schema = f.read()
 
-
-def init_db_vercel():
-    db = get_db()
-
-    with open('app/schema.sql') as f:  # opens file relative to "app" package
-        db.execute(f.read())
+# Execute the SQL statements in the schema.sql file
+    with db.connect() as conn:
+        conn.execute(schema)
 
 
 @click.command('init-db')
