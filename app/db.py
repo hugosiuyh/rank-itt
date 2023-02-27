@@ -32,12 +32,13 @@ def close_db(e=None):
 
 def init_db():
     db = get_db()
+    engine = create_engine('postgresql://sxeotxuxlmjxyo:1c4b9218b5de7f2f8db838198eae0f7c2f6974265a1b50c91fdf010a67242b2e@ec2-44-194-4-127.compute-1.amazonaws.com:5432/d840ckthb5pvst')
 
     with open('app/schema.sql', 'r') as f:
         schema = f.read()
 
 # Execute the SQL statements in the schema.sql file
-    with db.connection() as conn:
+    with engine.connection() as conn:
         conn.execute(schema)
 
 
