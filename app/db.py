@@ -36,10 +36,7 @@ def init_db():
 
     with open('app/schema.sql', 'r') as f:
         schema = f.read()
-
-# Execute the SQL statements in the schema.sql file
-    with engine.connect() as conn:
-        conn.execute(schema)
+        engine.execute(schema)
 
 
 @click.command('init-db')
