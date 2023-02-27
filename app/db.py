@@ -34,7 +34,7 @@ def init_db():
     db = get_db()
 
     with current_app.open_resource('./schema.sql') as f:  # opens file relative to "app" package
-        db.executescript(f.read().decode('utf8'))
+        db.execute(f.read())
 
 
 def init_db_vercel():
