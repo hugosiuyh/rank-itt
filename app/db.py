@@ -33,7 +33,7 @@ def close_db(e=None):
 def init_db():
     db = get_db()
 
-    with open('schema.sql', 'r') as f:
+    with open('app/schema.sql', 'r') as f:
         schema = f.read()
 
 # Execute the SQL statements in the schema.sql file
